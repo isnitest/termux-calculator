@@ -1,0 +1,31 @@
+name: Python CI
+
+on:
+  push:
+    branches: [ calculator, main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Test Calculator Functions
+      run: |
+        python -c "
+        from main import add, sub, mult, divi, modulo
+        assert add(2, 3) == 5
+        assert sub(5, 2) == 3
+        assert mult(4, 3) == 12
+        assert divi(10, 2) == 5
+        assert modulo(10, 3) == 1
+        print('All unit tests passed successfully!')
+        "
